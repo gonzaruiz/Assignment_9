@@ -1,0 +1,44 @@
+import pandas as pd
+import numpy as np
+
+# 1
+
+df = pd.DataFrame({"X" : [7, 2, 0, 3, 4, 2, 5, 0, 3, 4]})
+
+y = [0]
+
+for x in range(len(df["X"])):
+	for z in range(x - 1, -1, -1):
+		if z == 0:
+			y.append(x)
+			break
+		elif df["X"][z] == 0:
+			y.append(x - z)
+			break
+df["Y"] = y
+print(df)
+
+
+# 2
+
+idx = pd.bdate_range('2015-01-01', '2015-12-31')
+
+df1 = pd.DataFrame(index=idx)
+
+df1['rand'] = np.random.randint(1, 1000, size=len(df1))
+
+print df1
+
+#3
+
+
+print (df1.loc[pd.bdate_range('2015-01-07', '2015-12-31', freq="7D")].sum()) # suma de valores de todos los miercoles
+
+#4
+
+print( df1.groupby(df1.index.month)[['rand']].agg('mean')) # media por mes
+
+#5
+
+print (df1.groupby(pd.Grouper(freq="4M", base=3))[['rand']].agg('max')) #maximo por 4 meses
+
